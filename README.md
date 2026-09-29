@@ -1,4 +1,6 @@
 # Gestor de Gimnasio - Sistema de Gestión Integral
+### Desarrollador:
+**Edgar Manolo Polanco Sánchez**
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue.svg)](https://www.mysql.com/)
@@ -82,3 +84,7 @@ this.comandos = {
   '2': () => this.gestionPlanes(),
   ...
 };
+
+## Diagrama de la Base de datos
+**gestor_gimnacio**
+![](/img/diagrama.png)
