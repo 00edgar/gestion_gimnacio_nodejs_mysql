@@ -84,7 +84,9 @@ this.comandos = {
   '2': () => this.gestionPlanes(),
   ...
 };
-
+```
+----
 ## Diagrama de la Base de datos
 **gestor_gimnacio**
+
 ![](/img/diagrama.png)
