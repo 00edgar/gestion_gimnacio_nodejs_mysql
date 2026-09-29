@@ -92,4 +92,4 @@ this.comandos = {
 ![](/img/diagrama.png)
 
 **link documentacion**
-a href="https://drive.google.com/drive/folders/1l-tU4SJFyRJyfSwQh5fM3eBadMKre_jY
+https://drive.google.com/drive/folders/1l-tU4SJFyRJyfSwQh5fM3eBadMKre_jY
