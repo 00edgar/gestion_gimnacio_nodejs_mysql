@@ -18,13 +18,16 @@ export class Menu {
   async iniciar() {
     while (true) {
       console.clear();
-      console.log(chalk.cyan.bold('\n=== GESTOR DE GIMNASIO ===\n'));
+      console.log(chalk.cyan.bold('============================='));
+      console.log(chalk.cyan.bold('     GESTOR DE GIMNASIO    '));
+      console.log(chalk.cyan.bold('============================='));
       console.log('1. Clientes');
       console.log('2. Planes de entrenamiento');
       console.log('3. Contratos');
       console.log('4. Seguimiento físico');
       console.log('5. Gestión financiera');
       console.log('0. Salir');
+      console.log(chalk.cyan.bold('=============================\n'));
       const respuesta = await inquirer.prompt([{ type: 'input', name: 'op', message: 'Opción:' }]);
       if (this.comandos[respuesta.op]) await this.comandos[respuesta.op]();
       else mostrar('Opción inválida');
@@ -201,6 +204,7 @@ export class Menu {
       if (!lista.length) return mostrar('Sin pagos');
       const datos = lista.map(p => [p.id, '$' + p.monto, p.tipo, p.metodo_pago, p.fecha_pago]);
       mostrarTabla('PAGOS REGISTRADOS', ['ID', 'Monto', 'Tipo', 'Método', 'Fecha'], datos);
+      
     } else if (resp.accion === 'Listar egresos') {
       const lista = await Servicios.listarEgresos();
       if (!lista.length) return mostrar('Sin egresos');
