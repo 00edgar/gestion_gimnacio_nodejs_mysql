@@ -93,3 +93,5 @@ this.comandos = {
 
 **link documentacion**
 https://drive.google.com/drive/folders/1l-tU4SJFyRJyfSwQh5fM3eBadMKre_jY
+**link click up**
+https://app.clickup.com/90141682741/v/s/90148861591
