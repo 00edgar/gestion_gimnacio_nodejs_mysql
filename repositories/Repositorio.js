@@ -112,6 +112,7 @@ export class Repositorio {
     return { ingresos: ingresos[0].total, egresos: egresos[0].total, balance: ingresos[0].total - egresos[0].total };
   }
 
+
   // ==================== EGRESOS ====================
   static async registrarEgreso(datos) {
     const sql = 'INSERT INTO egresos (cliente_id, contrato_id, monto, categoria, descripcion, fecha_egreso) VALUES (?, ?, ?, ?, ?, ?)';
@@ -122,6 +123,15 @@ export class Repositorio {
   static async listarEgresos() {
     return await this.ejecutar('SELECT * FROM egresos ORDER BY fecha_egreso DESC');
   }
+
+  // ==================== Valance Mensual===============
+
+
+  static async balanceMensual(inicio, fin) {
+    const ingresos = await this.ejecutar('SELECT SELECT EXTRACT(MONTH FROM fecha) AS mes, COALESCE(SUM(monto),0) AS total FROM pagos WHERE WHERE EXTRACT(MONTH FROM fecha)=?' [mes]);
+    return { ingresos: ingresos[0].total, egresos: egresos[0].total, balance: ingresos[0].total - egresos[0].total };
+  }
+
 
   // ==================== PROGRESO ====================
   static async registrarProgreso(datos) {

@@ -66,6 +66,9 @@ export class Servicios {
   }
   static async listarEgresos() { return await Repositorio.listarEgresos(); }
 
+// =====================valance por mes ===============================000
+static async balanceMensual(mes) { return await Repositorio.balanceMensual(mes); }
+
   // ==================== PROGRESO ====================
   static async registrarProgreso(datos) { return await Repositorio.registrarProgreso(datos); }
   static async listarProgreso(id) { return await Repositorio.listarProgreso(id); }

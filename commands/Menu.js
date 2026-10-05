@@ -169,7 +169,7 @@ export class Menu {
   async gestionFinanciera() {
     const resp = await inquirer.prompt([{
       type: 'list', name: 'accion', message: 'Finanzas:',
-      choices: ['Registrar pago', 'Registrar egreso', 'Listar pagos', 'Listar egresos', 'Balance por fechas', 'Volver']
+      choices: ['Registrar pago', 'Registrar egreso', 'Listar pagos', 'Listar egresos', 'Balance por fechas','Reporte por mes', 'Volver']
     }]);
     if (resp.accion === 'Registrar pago') {
       const datos = await inquirer.prompt([
@@ -181,11 +181,14 @@ export class Menu {
         { type: 'input', name: 'fecha_pago', message: 'Fecha (YYYY-MM-DD):' },
         { type: 'list', name: 'metodo_pago', message: 'Método:', choices: ['efectivo', 'tarjeta', 'transferencia', 'otro'] }
       ]);
+
+
       datos.cliente_id = parseInt(datos.cliente_id);
       datos.contrato_id = datos.contrato_id ? parseInt(datos.contrato_id) : null;
       datos.monto = parseFloat(datos.monto);
       await Servicios.registrarPago(datos);
       exito('Pago registrado (transacción confirmada)');
+
     } else if (resp.accion === 'Registrar egreso') {
       const datos = await inquirer.prompt([
         { type: 'input', name: 'monto', message: 'Monto:' },
@@ -193,20 +196,24 @@ export class Menu {
         { type: 'input', name: 'descripcion', message: 'Descripción:' },
         { type: 'input', name: 'fecha_egreso', message: 'Fecha (YYYY-MM-DD):' }
       ]);
+
       datos.monto = parseFloat(datos.monto);
       await Servicios.registrarEgreso(datos);
       exito('Egreso registrado');
+
     } else if (resp.accion === 'Listar pagos') {
       const lista = await Servicios.listarPagos();
       if (!lista.length) return mostrar('Sin pagos');
       const datos = lista.map(p => [p.id, '$' + p.monto, p.tipo, p.metodo_pago, p.fecha_pago]);
       mostrarTabla('PAGOS REGISTRADOS', ['ID', 'Monto', 'Tipo', 'Método', 'Fecha'], datos);
+
     } else if (resp.accion === 'Listar egresos') {
       const lista = await Servicios.listarEgresos();
       if (!lista.length) return mostrar('Sin egresos');
       const datos = lista.map(e => [e.id, '$' + e.monto, e.categoria, e.descripcion, e.fecha_egreso]);
       mostrarTabla('EGRESOS REGISTRADOS', ['ID', 'Monto', 'Categoría', 'Descripción', 'Fecha'], datos);
-    } else if (resp.accion === 'Balance por fechas') {
+    } 
+    else if (resp.accion === 'Balance por fechas') {
       const fechas = await inquirer.prompt([
         { type: 'input', name: 'inicio', message: 'Desde (YYYY-MM-DD):' },
         { type: 'input', name: 'fin', message: 'Hasta (YYYY-MM-DD):' }
@@ -219,5 +226,21 @@ export class Menu {
       ];
       mostrarTabla('BALANCE FINANCIERO', ['Concepto', 'Monto'], datos);
     }
+
+    else if (resp.accion === 'Reporte por mes') {
+      const fechas = await inquirer.prompt([
+        { type: 'input', name: 'mes', message: 'mes del año' }
+      ]);
+      const balance = await Servicios.balanceMensual(fechas.mes);
+      const datos = [
+        ['Ingresos', '$' + balance.ingresos],
+        ['Egresos', '$' + balance.egresos],
+        ['Balance Final', '$' + balance.balance]
+      ];
+      mostrarTabla('BALANCE FINANCIERO', ['Concepto', 'Monto'], datos);
+    }
   }
 }
+
+
+
