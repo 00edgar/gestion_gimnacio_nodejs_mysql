@@ -124,12 +124,21 @@ export class Repositorio {
     return await this.ejecutar('SELECT * FROM egresos ORDER BY fecha_egreso DESC');
   }
 
-  // ==================== Valance Mensual===============
-
-
-  static async balanceMensual(inicio, fin) {
-    const ingresos = await this.ejecutar('SELECT SELECT EXTRACT(MONTH FROM fecha) AS mes, COALESCE(SUM(monto),0) AS total FROM pagos WHERE WHERE EXTRACT(MONTH FROM fecha)=?' [mes]);
-    return { ingresos: ingresos[0].total, egresos: egresos[0].total, balance: ingresos[0].total - egresos[0].total };
+  // ==================== Balance Mensual===============
+  static async balanceMensual(mes) {
+    const ingresos = await this.ejecutar(
+      'SELECT COALESCE(SUM(monto), 0) AS total FROM pagos WHERE MONTH(fecha_pago) = ?',
+      [mes]
+    );
+    const egresos = await this.ejecutar(
+      'SELECT COALESCE(SUM(monto), 0) AS total FROM egresos WHERE MONTH(fecha_egreso) = ?',
+      [mes]
+    );
+    return {
+      ingresos: ingresos[0].total,
+      egresos: egresos[0].total,
+      balance: ingresos[0].total - egresos[0].total
+    };
   }
 
 
