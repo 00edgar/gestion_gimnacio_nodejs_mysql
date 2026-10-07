@@ -229,7 +229,7 @@ export class Menu {
 
     else if (resp.accion === 'Reporte por mes') {
       const fechas = await inquirer.prompt([
-        { type: 'input', name: 'mes', message: 'mes del año' }
+        { type: 'input', name: 'mes', message: 'Mes del año(1-12)' }
       ]);
       const balance = await Servicios.balanceMensual(fechas.mes);
       const datos = [
